@@ -38,8 +38,8 @@ player.setGain(-20.0);
 
 void draw()
 {
-  background(0);
-  stroke(254, 1, 255);
+  background(36);
+  stroke(183, 5, 241);
   fft.forward(player.mix);
   
   
@@ -49,8 +49,8 @@ void draw()
     // draw the line for frequency band i, scaling it up a bit so we can see it
     //line( i, height, i, height - fft.getBand(i)*8 );
     
-    line(i*2,height,i*2,height-lerp(v[i],fft.getBand(i)*8,0.15));
-    fl=lerp(v[i],fft.getBand(i)*18,0.15);
+    line(i*2,height,i*2,height-lerp(v[i],fft.getBand(i)*8,0.09));
+    fl=lerp(v[i],fft.getBand(i)*18,0.10);
     v[i]=int(fl);
     
     //tp=t;
