@@ -32,7 +32,7 @@ void setup()
     v[k]=0;}
   }while (false);
   
-
+player.setGain(-20.0);
     
 }
 
