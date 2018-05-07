@@ -8,15 +8,14 @@ FFT         fft;
 int[] v;
 
 float fl=0;
-float t=0;
-float tp=0;
-float tn=0;
-float median_formula=0;
+float LerpAmount=0.15;
+float BandMultiplier=9;
 
 void setup()
 {
   size(1024, 400,P3D);
   frameRate(30);
+  
   // we pass this to Minim so that it can load files from the data directory
   minim = new Minim(this);
   
@@ -27,7 +26,7 @@ void setup()
   
   v= new int[fft.specSize()];
   do{
-    println("hello");
+    println(fft.specSize());
   for(int k=0;k<v.length;k++){
     v[k]=0;}
   }while (false);
@@ -44,28 +43,36 @@ void draw()
   
   
   
- for(int i = 0; i < fft.specSize(); i++)
+ //for(int i = 0; i < fft.specSize(); i++)
+ // {
+ //   // draw the line for frequency band i, scaling it up a bit so we can see it
+ //   //line( i, height, i, height - fft.getBand(i)*8 );
+    
+ //   fl=lerp(v[i],fft.getBand(i)*BandMultiplier,LerpAmount);
+ //   line(i*2,height,i*2,height-fl);
+ //   v[i]=int(fl);
+ // }
+ 
+ //first line
+ fl=lerp(v[0],fft.getBand(0)*BandMultiplier,LerpAmount);
+  line(1*2,height,1*2,height-fl);
+  v[0]=int(fl);
+  
+  for(int i = 1; i < fft.specSize()-1; i++)
   {
     // draw the line for frequency band i, scaling it up a bit so we can see it
     //line( i, height, i, height - fft.getBand(i)*8 );
     
-    line(i*2,height,i*2,height-lerp(v[i],fft.getBand(i)*8,0.09));
-    fl=lerp(v[i],fft.getBand(i)*18,0.10);
+    fl=lerp(v[i],fft.getBand(i)*BandMultiplier,LerpAmount);
+    line(i*2,height,i*2,height-fl);
     v[i]=int(fl);
-    
-    //tp=t;
-    //t=tn;
-    //tn=v[i];
-    //median_formula=(tp+t+tn)/3;
-    //line(i*2,height,i*2,height-lerp(v[i],fft.getBand(i)*10,0,15));
-    //fl=lerp(v[i],fft.getBand(i)*10,0,15);
-    //v[i]=int(fl);
-    
-    
-    
-    
-    
   }
+    //last line
+ fl=lerp(v[fft.specSize()-1],fft.getBand(fft.specSize()-1)*BandMultiplier,LerpAmount);
+  line(1*2,height,1*2,height-fl);
+  v[fft.specSize()-1]=int(fl);
+  
+  
   
   
   float posx = map(player.position(), 0, player.length(), 0, width);
