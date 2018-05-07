@@ -32,6 +32,7 @@ void setup()
   }while (false);
   
 player.setGain(-20.0);
+
     
 }
 
@@ -41,7 +42,7 @@ void draw()
   stroke(183, 5, 241);
   fft.forward(player.mix);
   
-  
+  float Median=0;
   
  //for(int i = 0; i < fft.specSize(); i++)
  // {
@@ -62,8 +63,8 @@ void draw()
   {
     // draw the line for frequency band i, scaling it up a bit so we can see it
     //line( i, height, i, height - fft.getBand(i)*8 );
-    
-    fl=lerp(v[i],fft.getBand(i)*BandMultiplier,LerpAmount);
+    Median=(v[i-1]+fft.getBand(i)*BandMultiplier+v[i+1])/3;
+    fl=lerp(v[i],Median,LerpAmount);
     line(i*2,height,i*2,height-fl);
     v[i]=int(fl);
   }
